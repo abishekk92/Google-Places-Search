@@ -9,12 +9,7 @@ get '/' do
   haml :index
 end
 
-#summa
-get '/summa/' do
-  haml :summa 
-end
-
-post '/summa' do
+post '/' do
   @result = JSON.parse(open("https://maps.googleapis.com/maps/api/place/search/json?location=13.055399,80.257874&radius=#{params[:rad]}&types=#{params[:types]}&sensor=false&key=AIzaSyA3wwb_zfHVHl-RNclVWWis3aomjCWq5D0").read).to_hash
   #@result = JSON.pretty_generate(data).to_json
   #placeref = @result['results'][1]['reference']
@@ -22,7 +17,7 @@ post '/summa' do
   puts @result['results'][i]['name']  
   end  
  
-  haml :summa
+  haml :index
 end
 
 #checkin
@@ -45,15 +40,11 @@ __END__
   %footer
     %a(href="/")Back to index
 
-@@ index
-%p
-  This is the homepage of the test app
-  Google Places API is used
-  %a(href="/summa")Click  here  
+ 
 
-@@ summa
-%h3 Summa
-%form(action='/summa' method='POST')
+@@ index
+%h3 Index
+%form(action='/' method='POST')
   radius
   %input(type="text" name="rad" value=@rad)
   types
