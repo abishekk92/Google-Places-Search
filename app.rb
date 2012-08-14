@@ -20,7 +20,7 @@ post '/' do
   haml :index
 end
 
-#checkin
+#checkin not added yet
 post '/checkin' do
  
 
