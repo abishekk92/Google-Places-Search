@@ -1,0 +1,2 @@
+This is a Sinatra app which helps you search places using Google Places API
+Enter radius (in metres) and type of place
