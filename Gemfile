@@ -4,4 +4,4 @@ gem 'sinatra'
 gem 'json'
 gem 'thin'
 gem 'haml'
-
+gem 'rack'
