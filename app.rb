@@ -10,12 +10,7 @@ get '/' do
 end
 
 post '/' do
-  @result = JSON.parse(open("https://maps.googleapis.com/maps/api/place/search/json?location=13.055399,80.257874&radius=#{params[:rad]}&types=#{params[:types]}&sensor=false&key=AIzaSyA3wwb_zfHVHl-RNclVWWis3aomjCWq5D0").read).to_hash
-  #@result = JSON.pretty_generate(data).to_json
-  #placeref = @result['results'][1]['reference']
-  for i in 1..8 do
-  puts @result['results'][i]['name']  
-  end  
+  @result = JSON.parse(open("https://maps.googleapis.com/maps/api/place/search/json?location=13.055399,80.257874&radius=#{params[:rad]}&types=#{params[:types]}&sensor=false&key=AIzaSyA3wwb_zfHVHl-RNclVWWis3aomjCWq5D0"))
  
   haml :index
 end
@@ -50,6 +45,8 @@ __END__
   types
   %input(type="text" name="types" value=@types)
   %input(type="submit")
-  %pre= "#{@result['results'][1]['name']}"
-  %img#thumb{:src => "#{@result['results'][1]['icon']}" }
+%div
+  -@result.each do |result|
+    %pre= result['results']['name']
+    %img#thumb{:src => "#{result['results']['icon']}"}
  
