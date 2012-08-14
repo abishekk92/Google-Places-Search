@@ -1,2 +1,7 @@
 source 'http://rubygems.org'
-gem 'rack'
+
+gem 'sinatra'
+gem 'json'
+gem 'thin'
+gem 'haml'
+
