@@ -50,5 +50,6 @@ __END__
   types
   %input(type="text" name="types" value=@types)
   %input(type="submit")
-  
+  %pre= "#{@result['results'][1]['name']}"
+  %img#thumb{:src => "#{@result['results'][1]['icon']}" }
  
