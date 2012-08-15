@@ -2,17 +2,26 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
-require 'open-uri'
+require 'uri'
 require 'json'
+require 'net/https'
 
 get '/' do
   haml :index
 end
 
 post '/' do
-  @result = JSON.parse(open("https://maps.googleapis.com/maps/api/place/search/json?location=13.055399,80.257874&radius=#{params[:rad]}&types=#{params[:types]}&sensor=false&key=AIzaSyA3wwb_zfHVHl-RNclVWWis3aomjCWq5D0"))
+   uri=URI.parse(URI.encode("https://maps.googleapis.com/maps/api/place/search/json?location=13.055399,80.257874&radius=#{params[:rad]}&types=#{params[:types]}&sensor=false&key=AIzaSyA3wwb_zfHVHl-RNclVWWis3aomjCWq5D0"))
+  http=Net::HTTP.new(uri.host,uri.port) 
+  http.use_ssl = true
+  http.verify_mode= OpenSSL::SSL::VERIFY_NONE
+  request=Net::HTTP::Get.new(uri.request_uri)
+  response=http.request(request) 
+  json_response= response.body
+  @result=JSON.parse(json_response)
  
-  haml :index
+ 
+  haml :place
 end
 
 #checkin not added yet
@@ -45,8 +54,11 @@ __END__
   types
   %input(type="text" name="types" value=@types)
   %input(type="submit")
+
+  
+@@ place
 %div
-  -@result.each do |result|
-    %pre= result['results']['name']
-    %img#thumb{:src => "#{result['results']['icon']}"}
+  - @result['results'].each do |res|
+    %pre= res['name']
+    %img#thumb{:src => "#{res['icon']}"}
  
